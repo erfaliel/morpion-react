@@ -93,20 +93,30 @@ class Game extends React.Component {
       xIsNext: (step %2) === 0,
     })
   }
+
+  makeTrack(squares) {
+    let result = ""
+    result = squares.map((square, posi) => {
+      const spot = ['1, 1', '1, 2', '1, 3', '2, 1', '2, 2', '2, 3', '3, 1', '3, 2', '3, 3'];
+      let value = spot[posi]  + " => " + (square === null ? "Vide": square );
+      return result + " | " + value;
+    })
+    return result;
+  }
+
   render() {
-    const history = this.state.history;
-    console.log("history ", history );
-    const current = history[this.state.stepNumber];
-    console.log("current", current);
+    const history = this.state.history; // all history
+    const current = history[this.state.stepNumber]; // history for this step
     const winner = calculateWinner(current.squares);
     const moves = history.map((step, move) => { // step: value, move: index
-      console.log("index", move);
+      console.log("index", move, "coups:", step, "squares: ", step.squares.toString());
+      const track = this.makeTrack(step.squares);
       const description = move ?
         'Revenir au tour n°' + move :
         'Revenir au début de la partie';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{description}</button>
+          <button onClick={() => this.jumpTo(move)}>{description} coups: {track} </button>
         </li>
       )
     })
