@@ -36,7 +36,31 @@ class Board extends React.Component {
   }
 
   render() {
+    const column = [0, 3, 6];
+    const raws = [0, 1, 2];
     return (
+      <div>
+        {column.map((i) => {
+          return(
+          <div key={i} className='board-row'>
+          {raws.map((value) => {
+            return ( 
+              <i key={value+i}>
+                {this.renderSquare(value+i) }
+              </i>
+            )
+          })}
+        </div>)
+        })}
+      </div>
+    )
+    
+    // la balise html <i> m'a permit de conserver la structure du tableau
+    // tout ent permettant d'avoir une Key sur chaque élément du tableau jsx
+    /* rappel :
+    Each child in an array or iterator should have a unique “key” prop
+
+      /* permet de générer le contenu ci-dessus qui pour ma part me semble plus simple d'utilisation
       <div>
         <div className="board-row">
           {this.renderSquare(0)}
@@ -54,9 +78,11 @@ class Board extends React.Component {
           {this.renderSquare(8)}
         </div>
       </div>
-    );
+      */
+
   }
 }
+
 
 class Game extends React.Component {
   constructor(props){
@@ -111,14 +137,19 @@ class Game extends React.Component {
     const moves = history.map((step, move) => { // step: value, move: index
       console.log("index", move, "coups:", step, "squares: ", step.squares.toString());
       const track = this.makeTrack(step.squares);
-      const description = move ?
-        'Revenir au tour n°' + move :
-        'Revenir au début de la partie';
-      return (
-        <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{description} coups: {track} </button>
-        </li>
-      )
+      if (move) {
+        return (
+          <li key={move}>
+            <button onClick={() => this.jumpTo(move)}>Revenir au tour n° <b>{move}</b> coups: {track} </button>
+          </li>
+        )
+      } else {
+          return (
+            <li key={move}>
+              <button onClick={() => this.jumpTo(move)}>Revenir au début de la partie. </button>
+            </li>
+          )
+      }
     })
     console.log("moves", moves);
     let status;
