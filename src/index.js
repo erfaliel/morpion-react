@@ -60,7 +60,8 @@ class Board extends React.Component {
     /* rappel :
     Each child in an array or iterator should have a unique “key” prop
 
-      /* permet de générer le contenu ci-dessus qui pour ma part me semble plus simple d'utilisation
+      /* permet de générer le contenu ci-dessus qui pour ma part me semble plus simple d'utilisation qu'une boucle
+      imbriquée dans le jsx.
       <div>
         <div className="board-row">
           {this.renderSquare(0)}
